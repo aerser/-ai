@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>けいごチャットボット</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .chat-container { max-width: 600px; margin: 0 auto; }
+        .chat-box { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: scroll; }
+        .message { margin: 10px 0; }
+        .user-message { text-align: right; }
+        .bot-message { text-align: left; }
+        input[type="text"] { width: calc(100% - 110px); padding: 10px; }
+        button { width: 100px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="message bot-message">何かご質問があれば、お聞かせください。</div>
+        </div>
+        <div>
+            <input type="text" id="user-input" placeholder="メッセージを入力">
+            <button onclick="sendMessage()">送信</button>
+        </div>
+    </div>
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === "") return;
+
+            const chatBox = document.getElementById('chat-box');
+
+            // ユーザーのメッセージを表示
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = userInput;
+            chatBox.appendChild(userMessage);
+
+            // けいごの返答を生成
+            const botResponse = document.createElement('div');
+            botResponse.className = 'message bot-message';
+            botResponse.textContent = generateKeigoResponse(userInput);
+            chatBox.appendChild(botResponse);
+
+            // 入力フィールドをクリア
+            document.getElementById('user-input').value = '';
+
+            // チャットボックスを下までスクロール
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function generateKeigoResponse(message) {
+            // けいごの返答を生成するロジック
+            const keigoResponses = [
+                "ご質問ありがとうございます。",
+                "それについては、少々お待ちください。",
+                "申し訳ございませんが、もう一度お聞かせください。",
+                "お手数おかけいたしますが、よろしくお願いいたします。",
+                "ご不明な点がございましたら、いつでもお知らせください。"
+            ];
+            return keigoResponses[Math.floor(Math.random() * keigoResponses.length)];
+        }
+    </script>
+</body>
+</html>
